@@ -11,9 +11,10 @@ the value of *your* proprietary data. In this document, I will show you how.
 ## Table of Contents
 1. [Overview of LLM Fine Tuning](#fine-tuning-an-llm)
 2. [Problem Background](#2-code-walkthrough)
-3. [Designing the AI System for Terms of Service](#2-code-walkthrough)
+3. [Architecture of the AI System](#2-code-walkthrough)
 4. [Code Deep Dive](#3-install-and-get-started)
-5. [References](#4-contribute)
+5. [Model Results](#3-install-and-get-started)
+6. [References](#4-contribute)
 
 ## 1. Overview of LLM Fine Tuning
 You don't want an AI that can just chat; what you really want are automations that perform 
@@ -303,7 +304,47 @@ best model according to our metric. This is a perfect example of the rich functi
 that comes with PyTorch Lightning.
 
 That's it! I hope that this code walkthrough has been enlightening. Now the next step is 
-to get hands-on, and the installation guide below will help you get started tinkering 
+to explore the results of fine tuning an LLM to predict unfair Terms of Service.
+
+## 5. Model Results
+Here's a dashboard that puts it all together:
+
+#### Figure 9
+![alt text](docs/dashboard.png "Dashboard")
+
+Taking advantage of the tight integration between Azure and MLflow, the metrics from our 
+training run have been made available for easy consumption and visualization in the 
+AzureML web console. MLflow captured way more than just the metrics, but going deeper 
+into its full functionality and the broader use cases of MLOps is for another day. For 
+now, let's focus on the story that our data visualization reveals to us. 
+
+One thing that pops out from the top left chart is that training has no doubt improved 
+loss on the validation sample. Furthermore, between 125 and 190 steps, the curve starts to 
+flatten, a potential indication that further training could be unnecessary. But being 
+monotonic, we see that overfitting has not yet occurred, and what's more, the curve 
+steepened again from 190 to 210, so maybe it might not be a bad idea to have let it run 
+for another 5 epochs.
+
+The top right plot, interestingly, tell a similar story. The most notable characteristic 
+is how high the the accuracy values are, and the unit here is percentage. That the lines 
+are hitting 90% from the get-go makes sense because the dataset is imblanced at 1:9 
+ratio between unfair and fair. It's exactly why the preferred metric is F1, which is 
+what we display in the bottom left graph.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+get hands-on, and the installation guide below will help you get started tinkering 
 with the code.
 
 ## 3. Install and Get Started

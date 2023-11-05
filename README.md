@@ -341,18 +341,20 @@ We observe the world in the form of discrete events, but continuous constructs (
 probability) are often more useful in mathematics. Outcomes in the UNFAIR-ToS dataset 
 are coded "fair" or "unfair", and there's a latent probability distribution that 
 generated those outcomes. That latent probability distribution is what the cross-entropy 
-loss function can work with. That's the idea. 
+loss function can work with. So in deep learning, we optimize for the continuous metric 
+but we judge how good our model is by the discrete metric, because continuous (latent) 
+and discrete (observed) are approximations of each other. That's the idea. 
 
+So when the F1 hints at a different story than the loss, there are only two possible 
+explanations: randomness and class imbalance. Indeed that's why the accuracy and the F1 
+are so much more volatile than the loss.
 
+Randomness also appears to be the likely explanation for the gap between the best 
+validation F1 score of 70% and the test F1 score of 78% (from the bottom right table).
 
-
-
-
-
-
-
-get hands-on, and the installation guide below will help you get started tinkering 
-with the code.
+This play by play analysis of the model evaluation metrics brings this section to an end.
+Next up, get hands-on with making this project your own. The installation guide below 
+will help you get started tinkering with the code.
 
 ## 3. Install and Get Started
 The first step is to clone this repository into a local working directory and then change into the root of the cloned repo:

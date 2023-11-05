@@ -1,0 +1,21 @@
+name: lightning-mlflow-hf
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python
+  - pip
+  - pip:
+      - adlfs
+      - azure-storage-blob
+      - azureml-mlflow
+      - datasets
+      - lightning
+      - mlflow
+      - onnx
+      - peft
+      - polars
+      - sentencepiece
+      - torch
+      - torchmetrics
+      - transformers

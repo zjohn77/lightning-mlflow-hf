@@ -326,15 +326,22 @@ steepened again from 190 to 210, so maybe it might not be a bad idea to have let
 for another 5 epochs.
 
 The top right plot, interestingly, tell a similar story. The most notable characteristic 
-is how high the the accuracy values are, and the unit here is percentage. That the lines 
-are hitting 90% from the get-go makes sense because the dataset is imblanced at 1:9 
+is how high the accuracy values are, and the unit here is percentage. That the lines 
+are hitting 90% from the get-go makes sense because the dataset is unbalanced at 1:9 
 ratio between unfair and fair. It's exactly why the preferred metric is F1, which is 
 what we display in the bottom left graph.
 
+The F1 curves here exhibit the classic pattern where model improves rapidly at first but 
+eventually reaches the point of diminishing return. An interesting question provoked by 
+the F1 curves is how do we reconcile between the loss and F1, when one suggests tapering 
+while the other leaves room for going further? The following bit of theory will crack 
+this conundrum.
 
-
-
-
+We observe the world in the form of discrete events, but continuous constructs (e.g. 
+probability) are often more useful in mathematics. Outcomes in the UNFAIR-ToS dataset 
+are coded "fair" or "unfair", and there's a latent probability distribution that 
+generated those outcomes. That latent probability distribution is what the cross-entropy 
+loss function can work with. That's the idea. 
 
 
 

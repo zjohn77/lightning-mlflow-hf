@@ -132,10 +132,7 @@ Here's what the project structure looks like from the root of the lightning_mlfl
 │   └── train_config.py
 ├── data
 │   ├── __init__.py
-│   ├── imdb.py
-│   ├── lex_glue.py
-│   ├── rotten_tomatoes.py
-│   └── split.py
+│   └── lex_glue.py
 └── train.py
 ```
 
@@ -153,7 +150,7 @@ walk through each one of these modules in turn:
  
 With this brief intro out of the way, let's roll up our sleeves and try to really 
 understand the code in each of the modules. Let's start with 
-`architectures/fine_tune_clsify_head.py`. This code is organized like Figure 3 just 
+[architectures/fine_tune_clsify_head.py](https://github.com/zjohn77/lightning-mlflow-hf/blob/70db3818f1fb8496a6f433eb0922519d21c1f33b/lightning_mlflow/architectures/fine_tune_clsify_head.py#L3). This code is organized like Figure 3 just 
 below.
 
 #### Figure 3
@@ -207,7 +204,8 @@ They look almost alike, with an important difference being `training_step` retur
 minimizing loss; `training_step` is just PyTorch Lightning's abstraction of the training 
 loop.
 
-OK, now we're done with `architectures`, let's dive into `config/train_config.py`, which 
+OK, now we're done with `architectures`, let's dive into [config/train_config.py]
+(https://github.com/zjohn77/lightning-mlflow-hf/blob/70db3818f1fb8496a6f433eb0922519d21c1f33b/lightning_mlflow/config/train_config.py#L4), which 
 looks like Figure 7 below.
 
 #### Figure 7
@@ -230,7 +228,7 @@ Finally, as we will see later, `max_epochs` of 10 was chosen by trial and error 
 validation F1 metric we were tracking in MLflow was flattening by that point.
 
 OK, let's talk about data. Everything you need to know is in the `LexGlueDataModule` 
-class in `data/lex_glue.py`, and this is its structure:
+class in [data/lex_glue.py](https://github.com/zjohn77/lightning-mlflow-hf/blob/70db3818f1fb8496a6f433eb0922519d21c1f33b/lightning_mlflow/data/lex_glue.py#L3), and this is its structure:
 
 #### Figure 8
 ![Lex GLUE Data Module](docs/lex-glue-data-module.png)
@@ -241,7 +239,7 @@ of tokenization has to happen. The details of that tokenization is in the
 `_shared_transform` method, which is just the high level interface for the 
 `_preprocess` callback method. 
 
-Finally, we're ready for `train.py`, the central point of control for everything. 
+Finally, we're ready for [train.py](https://github.com/zjohn77/lightning-mlflow-hf/blob/70db3818f1fb8496a6f433eb0922519d21c1f33b/lightning_mlflow/train.py#L3), the central point of control for everything. 
 Remember when we began this section with the directory structure of the project? That 
 structure is communicating an important message: that dependencies are resolved 
 downwards in the directory tree. In other words, we restricted code to only calling 

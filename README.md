@@ -32,7 +32,7 @@ and the technology behind it. Listed below are the five tools we will use extens
 - Polars (this data manipulation library is orders of magnitude faster than pandas and is 
   really trending now)
 - Mlflow (for tracking results during the process of fine tuning)
-- AzureML (we could've also gone with AWS SageMaker, but the user experience of AzureML 
+- Azure ML (we could've also gone with AWS SageMaker, but the user experience of Azure ML 
   felt better)
 
 At the end of the day, I want you to take away two things from this document:
@@ -99,7 +99,7 @@ Let's design how we're going to do it.
 
 ## 3. Architecture of the AI System
 #### Figure 2
-![alt text](docs/unfair-tos-diagram.png "Project Diagram")
+![Project Diagram](docs/unfair-tos-diagram.png)
 
 
 ## 4. Code Deep Dive
@@ -155,20 +155,20 @@ understand the code in each of the modules. Let's start with
 below.
 
 #### Figure 3
-![alt text](docs/architecture-organization.png "Architecture Organization")
+![Architecture Organization](docs/architecture-organization.png)
 
 It's clear that the key methods inside this class to understand are: the constructor, 
-the foward pass through the network, the metrics, and the steps. We'll discuss each of 
+the forward pass through the network, the metrics, and the steps. We'll discuss each of 
 these in turn. Let's start with the constructor. This snippet is what the code looks like:
 
 #### Figure 4
-![alt text](docs/transformer-constructor.png "Transformer Constructor")
+![Transformer Constructor](docs/transformer-constructor.png)
 
 What's really crucial here is that the constructor loads a pretrained model from 
 Huggingface, and sets up Parameter Efficient Fine Tuning (PEFT). PEFT is the bleeding 
 edge way to fine tune Large Language Models, and is a Huggingface implementation of 
 QLoRA, which is the combination of three different efficiency strategies: quantization, 
-low rank, and adapter. Quantization is the idea that single-byte integer is of 
+low rank, and adapter. Quantization is the idea that a single-byte integer is of 
 sufficient numerical precision for gradient computations in deep learning. Low rank 
 comes from the linear algebra concept that the rank of a matrix is roughly the number of 
 non-redundant dimensions of the vector space. Adapter tuning can be understood as a sort 
@@ -178,7 +178,7 @@ weights in many layers.
 Let's look at the `forward` method:
 
 #### Figure 5
-![alt text](docs/feed-forward.png "Feed Forward")
+![Feed Forward](docs/feed-forward.png)
 
 As training a neural network involves the alternation between backprop and feed forward, 
 this specifies the forward part, and the notable thing is that the arguments of 
@@ -188,7 +188,7 @@ Huggingface tokenizer, and they allow us to tie together Huggingface and PyTorch
 Next, let's take a look at the `_compute_metrics` method:
 
 #### Figure 6
-![alt text](docs/metrics.png "Metrics")
+![Metrics](docs/metrics.png)
 
 There are a few things worth noting here. First, observe how the logits are unpacked 
 from the forward function evaluation and then converted to probabilities via softmax 
@@ -198,7 +198,7 @@ actual (`batch["label"]`) to calculate the accuracy, F1, precision, and recall.
 Finally, let's talk about `training_step`, `validation_step`, and `test_step`.
 
 #### Figure 6
-![alt text](docs/the-steps.png "The Steps")
+![The Steps](docs/the-steps.png)
 
 They look almost alike, with an important difference being `training_step` returning 
 `outputs["loss"]` instead of `metrics`. This makes sense because backprop is iteratively 
@@ -209,14 +209,14 @@ OK, now we're done with `architectures`, let's dive into `config/train_config.py
 looks like Figure 7 below.
 
 #### Figure 7
-![alt text](docs/config.png "Config")
+![Config](docs/config.png)
 
 This code is self-explanatory, but there are some choices to call out. The 
 `pretrained_model` is set to `roberta-base`, and if we were to change it to any 
 Huggingface model name that supports AutoTokenizer, everything should still work (tested)
 . Model accuracy was found to be most sensitive to `max_length` and `batch_size`, so 
 these are the main hyperparameters to play around with, and they both tradeoff 
-between accuracy and computational load. On AzureML, I used the Standard_NC24ads_A100_v4 
+between accuracy and computational load. On Azure ML, I used the Standard_NC24ads_A100_v4 
 instance. The vRAM on the A100 GPU proved to be the limiting factor for these two 
 hyperparameters. What I found was that 256 was the largest `batch_size` that wouldn't 
 cause CUDA to throw an out-of-memory error.
@@ -227,15 +227,13 @@ this token limit.
 Finally, as we will see later, `max_epochs` of 10 was chosen by trial and error as the 
 validation F1 metric we were tracking in MLflow was flattening by that point.
 
-OK, let's talk about data. The `data` module has three python files, but the only one 
-that's actually used for the UNFAIR-ToS model is `lex_glue.py`. The other are just 
-templates for other datasets. Let's dive into the nuts and bolts of `lex_glue.py`. 
-Everything crucial is in the `LexGlueDataModule` class, and here you can see its structure: 
+OK, let's talk about data. Everything you need to know is in the `LexGlueDataModule` 
+class in `data/lex_glue.py`, and this is its structure:
 
 #### Figure 8
-![alt text](docs/lex-glue-data-module.png "Lex GLUE Data Module")
+![Lex GLUE Data Module](docs/lex-glue-data-module.png)
 
-There are quite a few nitty gritty details in `LexGlueDataModule`, but the main idea is 
+There are quite a few nitty-gritty details in `LexGlueDataModule`, but the main idea is 
 that the `setup` method fetches the data directly from Huggingface, and then some sort 
 of tokenization has to happen. The details of that tokenization is in the 
 `_shared_transform` method, which is just the high level interface for the 
@@ -253,7 +251,7 @@ modules and then set into motion a training run. Let's look at the piece of code
 heart of it:
 
 #### Figure 9
-![alt text](docs/train.png "Train")
+![Train](docs/train.png)
 
 We're instantiating a PyTorch Lightning Trainer class, turn on early stopping, and set 
 precision based on the machine we're on via `precision="bf16-mixed" if torch.cuda.
@@ -312,11 +310,11 @@ to explore the results of fine tuning an LLM to predict unfair Terms of Service.
 Here's a dashboard that puts it all together:
 
 #### Figure 10
-![alt text](docs/dashboard.png "Dashboard")
+![Dashboard](docs/dashboard.png)
 
 Taking advantage of the tight integration between Azure and MLflow, the metrics from our 
 training run have been made available for easy consumption and visualization in the 
-AzureML web console. MLflow captured way more than just the metrics, but going deeper 
+Azure ML web console. MLflow captured way more than just the metrics, but going deeper 
 into its full functionality and the broader use cases of MLOps is for another day. For 
 now, let's focus on the story that our data visualization reveals to us. 
 
@@ -348,7 +346,7 @@ but we judge how good our model is by the discrete metric, because continuous (l
 and discrete (observed) are approximations of each other. That's the idea. 
 
 So when the F1 hints at a different story than the loss, there are only two possible 
-explanations: randomness and class imbalance. Indeed that's why the accuracy and the F1 
+explanations: randomness and class imbalance. Indeed, that's why the accuracy and the F1 
 are so much more volatile than the loss.
 
 Randomness also appears to be the likely explanation for the gap between the best 
@@ -360,12 +358,11 @@ will help you get started tinkering with the code.
 
 
 ## 6. Installation and Quick Start
-Step 1. Clone this repository into a local working directory and then change into the 
-root of the cloned repo:
+Step 1. Clone this repository into a local working directory:
 
 ```sh
-git clone https://github.com/zjohn77/lightning-mlflow-hf.git
-cd lightning-mlflow-hf
+$ git clone https://github.com/zjohn77/lightning-mlflow-hf.git
+$ cd lightning-mlflow-hf
 ```
 
 Step 2. All project dependencies are in `environment.yml`, and you're going to create a 
@@ -373,7 +370,7 @@ virtual environment for it. The instructions below are for `conda`, but nothing 
 dependencies preclude `venv` or `poetry`.
 
 ```sh
-conda env create -n lightning-mlflow-hf -f environment.yml
+$ conda env create -n lightning-mlflow-hf -f environment.yml
 ```
 
 Step 3. At the end of training run, the `copy_dir_to_abs` function will copy the outputs 
@@ -382,8 +379,8 @@ function and you're all set. Otherwise, replace with your own workflow.
 
 Step 4. In your virtual environment, you'll change into or point your IDE to where `train.py` is and run:
 
-```python
-python train.py
+```sh
+$ python train.py
 ```
 
 If there are no bugs, it will print to console some Huggingface message and a lot of 

@@ -223,10 +223,8 @@ They look almost alike, with an important difference being `training_step` retur
 minimizing loss; `training_step` is just PyTorch Lightning's abstraction of the training
 loop.
 
-OK, now we're done with `architectures`, let's dive into [config/train_config.py]
-(https://github.com/zjohn77/lightning-mlflow-hf/blob/70db3818f1fb8496a6f433eb0922519d21c1f33b/lightning_mlflow/config/train_config.py#L4),
-which
-looks like Figure 7 below.
+OK, now we're done with `architectures`, let's dive into [config/train_config.py](https://github.com/zjohn77/lightning-mlflow-hf/blob/70db3818f1fb8496a6f433eb0922519d21c1f33b/lightning_mlflow/config/train_config.py#L4),
+which looks like Figure 7 below.
 
 #### Figure 7
 

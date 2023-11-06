@@ -9,12 +9,14 @@ the power of AI to *your* business problems, to supercharge *your* processes, to
 the value of *your* proprietary data. In this document, I will show you how.
 
 ## Table of Contents
-1. [Overview of LLM Fine Tuning](#fine-tuning-an-llm)
-2. [Problem Background](#2-code-walkthrough)
-3. [Architecture of the AI System](#2-code-walkthrough)
-4. [Code Deep Dive](#3-install-and-get-started)
-5. [Model Results](#3-install-and-get-started)
-6. [References](#4-contribute)
+1. [Overview of LLM Fine Tuning](#1-overview-of-llm-fine-tuning)
+2. [Problem Background](#2-problem-background)
+3. [Architecture of the AI System](#3-architecture-of-the-ai-system)
+4. [Code Deep Dive](#4-code-deep-dive)
+5. [Model Results](#5-model-results)
+6. [Installation and Quick Start](#6-installation-and-quick-start)
+7. [Contribute](#7-contribute)
+8. [References](#8-references)
 
 ## 1. Overview of LLM Fine Tuning
 You don't want an AI that can just chat; what you really want are automations that perform 
@@ -47,7 +49,8 @@ to put powerful MLOps practices into action--using MLflow to organize our experi
 and parameters. And along the way, I'm going to point out the design pattern of this 
 project so that you can customize the codebase for your own deep learning projects.  
 
-Let's start with the problem statement.
+Let's start with the problem background.
+
 
 ## 2. Problem Background
 A good process for finding suitable problems for machine learning and for quality datasets 
@@ -65,7 +68,6 @@ Chalkidis et al. (2021) applied eight different machine learning methods to UNFA
 and obtained macro F1 ranging from 75 to 83, and in Figure 1 just below, we excerpt from 
 their published results.
 
-
 #### Figure 1
 | Method        | UNFAIR-ToS |          |
 |---------------|------------|----------|
@@ -78,7 +80,6 @@ their published results.
 | BigBird       | 95.7       | 81.3     |
 | Legal-BERT    | 96.0       | 83.0     |
 | CaseLaw-BERT  | 96.0       | 82.3     |
-
 
 Interesting things we can infer from this table are:
 
@@ -95,23 +96,23 @@ build a binary classification model that classifies a clause as fair or unfair.
 
 Let's design how we're going to do it.
 
-## 3. Designing the AI System for Terms of Service
+
+## 3. Architecture of the AI System
 #### Figure 2
 ![alt text](docs/unfair-tos-diagram.png "Project Diagram")
-
-
-
-
 
 
 ## 4. Code Deep Dive
 ### 📝 Some Conventions to Know
 * Functions are categorized as either helper functions or APIs. Python's single underscore protected notation is used here to tag a function as a helper function.  
 * `__init__.py` exposes the public APIs of the module it is in so that we can conveniently shorten imports for deeply submoduled functionality like this example:
+
 ```python
 from .fine_tune_clsify_head import TransformerModule
 ```
+
 in `architectures/__init__.py` enables code outside `architectures` to import `TransformerModule` without having to remember the breadcrumbs leading to where this function sits, like this:
+
 ```python
 from architectures import TransformerModule
 ```
@@ -251,7 +252,7 @@ this means is that `train.py` is going to import the functionality from each of 
 modules and then set into motion a training run. Let's look at the piece of code at the 
 heart of it:
 
-#### Figure 8
+#### Figure 9
 ![alt text](docs/train.png "Train")
 
 We're instantiating a PyTorch Lightning Trainer class, turn on early stopping, and set 
@@ -306,10 +307,11 @@ that comes with PyTorch Lightning.
 That's it! I hope that this code walkthrough has been enlightening. Now the next step is 
 to explore the results of fine tuning an LLM to predict unfair Terms of Service.
 
+
 ## 5. Model Results
 Here's a dashboard that puts it all together:
 
-#### Figure 9
+#### Figure 10
 ![alt text](docs/dashboard.png "Dashboard")
 
 Taking advantage of the tight integration between Azure and MLflow, the metrics from our 
@@ -357,7 +359,7 @@ Next up, get hands-on with making this project your own. The installation guide 
 will help you get started tinkering with the code.
 
 
-## 3. Installation and Quick Start
+## 6. Installation and Quick Start
 Step 1. Clone this repository into a local working directory and then change into the 
 root of the cloned repo:
 
@@ -391,7 +393,7 @@ summarizing the evaluation metrics for the final model will be printed to consol
 That's all there is to it!
 
 
-## 4. Contribute
+## 7. Contribute
 Any contribution is welcome. We use GitHub pull requests for code review, and we use 
 [the Black formatter](https://black.readthedocs.io/en/stable/) to ensure code style 
 consistency.
@@ -399,3 +401,9 @@ consistency.
 Unit tests and doc tests are also highly welcome.
 
 A roadmap is work in progress. Check back soon.
+
+
+## 8. References
+Ilias Chalkidis, Abhik Jana, Dirk Hartung, Michael Bommarito, Ion Androutsopoulos, 
+Daniel Martin Katz, Nikolaos Aletras. (2021). *LexGLUE: A Benchmark Dataset for Legal 
+Language Understanding in English*. Retrieved from arXiv: https://arxiv.org/abs/2110.00976

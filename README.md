@@ -342,8 +342,7 @@ One thing that pops out from the top left chart is that training has no doubt im
 loss on the validation sample. Furthermore, between 125 and 190 steps, the curve starts to
 flatten, a potential indication that further training could be unnecessary. But being
 monotonic, we see that overfitting has not yet occurred, and what's more, the curve
-steepened again from 190 to 210, so maybe it might not be a bad idea to have let it run
-for another 5 epochs.
+steepened again from 190 to 210, so perhaps we should've let it run for another 5 epochs.
 
 The top right plot, interestingly, tell a similar story. The most notable characteristic
 is how high the accuracy values are, and the unit here is percentage. That the lines
@@ -378,14 +377,14 @@ will help you get started tinkering with the code.
 
 ## 6. Installation and Quick Start
 
-Step 1. Clone this repository into a local working directory:
+**Step 1.** Clone this repository into a local working directory:
 
 ```sh
 $ git clone https://github.com/zjohn77/lightning-mlflow-hf.git
 $ cd lightning-mlflow-hf
 ```
 
-Step 2. All project dependencies are in `environment.yml`, and you're going to create a
+**Step 2.** All project dependencies are in `environment.yml`, and you're going to create a
 virtual environment for it. The instructions below are for `conda`, but nothing in these
 dependencies preclude `venv` or `poetry`.
 
@@ -393,11 +392,11 @@ dependencies preclude `venv` or `poetry`.
 $ conda env create -n lightning-mlflow-hf -f environment.yml
 ```
 
-Step 3. At the end of training run, the `copy_dir_to_abs` function will copy the outputs
+**Step 3.** At the end of training run, the `copy_dir_to_abs` function will copy the outputs
 to Azure Blob Storage. If Azure is also what you're using, just pass credentials to this
 function and you're all set. Otherwise, replace with your own workflow.
 
-Step 4. In your virtual environment, you'll change into or point your IDE to
+**Step 4.** In your virtual environment, you'll change into or point your IDE to
 where `train.py` is and run:
 
 ```sh

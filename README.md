@@ -356,36 +356,46 @@ This play by play analysis of the model evaluation metrics brings this section t
 Next up, get hands-on with making this project your own. The installation guide below 
 will help you get started tinkering with the code.
 
-## 3. Install and Get Started
-The first step is to clone this repository into a local working directory and then change into the root of the cloned repo:
+
+## 3. Installation and Quick Start
+Step 1. Clone this repository into a local working directory and then change into the 
+root of the cloned repo:
+
 ```sh
-git clone https://github.com/zjohn77/inflame-deeplearning.git
-cd inflame-deeplearning
+git clone https://github.com/zjohn77/lightning-mlflow-hf.git
+cd lightning-mlflow-hf
 ```
 
-Next, we are going to create a virtual environment using conda from `environment.yml`; ideally, we'd want our local virtual environment to mirror our cloud runtime as perfectly as possible, which was why I pinned python to 3.9 and torch to 1.12.1, as those are the exact versions on the pre-built container on Azure ML that I want to use. Your configurations will likely vary.
+Step 2. All project dependencies are in `environment.yml`, and you're going to create a 
+virtual environment for it. The instructions below are for `conda`, but nothing in these 
+dependencies preclude `venv` or `poetry`.
+
 ```sh
-conda env create -n inflame-deeplearning --file environment.yml
+conda env create -n lightning-mlflow-hf -f environment.yml
 ```
 
-There is some housekeeping to do with pointing the training code to data on your own computer, and the `model-config.toml` file enables us to switch parameters in and out easily. This file has a section for hyperparameters and a section for IO. The IO section contains the following variables: `training_input`, `training_output`, `inference_input`, and `inference_output`.
+Step 3. At the end of training run, the `copy_dir_to_abs` function will copy the outputs 
+to Azure Blob Storage. If Azure is also what you're using, just pass credentials to this 
+function and you're all set. Otherwise, replace with your own workflow.
 
-To run our example model, we are going to download and unzip this [bird images dataset](https://azuremlexamples.blob.core.windows.net/datasets/fowl_data.zip), and point the `training_input` variable to it. Then, point the `inference_input` variable to whatever test image you like. It's easy. Now, we're ready to kick off a training run with `app.py`, and the way that this module works is that it is really just like a telephone switchboard. The actual training loop is in `train.py`. Abstracting the interface from the implementation in this way allows us to easily swap out that training loop in `train.py` with another, totally unrelated, neural network architecture without worrying about breaking any communication between `app.py` and `model-config.toml`, or between the `model` module and the `infra` module. As a matter of fact, the `infra` module is aware of only one thing about the `model` module: that there is a script called `app.py` in the model module. Arguably, this project (inflame-deeplearning) wins against jupyter notebook on this point.
+Step 4. In your virtual environment, you'll change into or point your IDE to where `train.py` is and run:
 
-In your virtual environment, you'll change into or point your IDE to where `app.py` is and run:
 ```python
-python app.py
-```
-It will log the loss and the accuracy metric for each epoch, and at the end it will print to console the following json (the values may be different):
-
-```
-{"label": "turkey", "probability": "0.7779676"}
+python train.py
 ```
 
-You have trained your first model using inflame-deeplearning! And that wasn't so bad. Where to go from here? A tutorial of the scale out to cloud code in the `infra` module is work in progress. Check back soon.
+If there are no bugs, it will print to console some Huggingface message and a lot of 
+PyTorch Lightning messages. After a few minutes, it should start printing a progress bar.
+Sit tight and let it do its thing. When the run finally finishes, an ascii table 
+summarizing the evaluation metrics for the final model will be printed to console. 
+That's all there is to it!
+
 
 ## 4. Contribute
-Any contribution is welcome. We use GitHub pull requests for code review, and we use [the Black formatter](https://black.readthedocs.io/en/stable/). To ensure that the unit tests pass:
-```sh
-python -m unittest
-```
+Any contribution is welcome. We use GitHub pull requests for code review, and we use 
+[the Black formatter](https://black.readthedocs.io/en/stable/) to ensure code style 
+consistency.
+
+Unit tests and doc tests are also highly welcome.
+
+A roadmap is work in progress. Check back soon.

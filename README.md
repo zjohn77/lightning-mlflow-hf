@@ -31,11 +31,11 @@ Let's talk specifically about the fine tuning that we are going to do in this do
 and the technology behind it. Listed below are the five tools we will use extensively:
 
 - **PyTorch Lightning** (gives us just enough control without excessive boilerplate)
-- **HuggingFace** (access to thousands of community-maintained models)
+- **Hugging Face** (access to thousands of community-maintained models)
 - **Polars** (this data manipulation library is orders of magnitude faster than pandas
   and is
   really trending now)
-- **Mlflow** (for tracking results during the process of fine tuning)
+- **MLflow** (for tracking results during the process of fine tuning)
 - **Azure ML** (we could've also gone with AWS SageMaker, but the user experience of
   Azure ML
   felt better)
@@ -180,8 +180,8 @@ these in turn. Let's start with the constructor. This snippet is what the code l
 ![Transformer Constructor](docs/transformer-constructor.png)
 
 What's really crucial here is that the constructor loads a pretrained model from
-Huggingface, and sets up Parameter Efficient Fine Tuning (PEFT). PEFT is the bleeding
-edge way to fine tune Large Language Models, and is a Huggingface implementation of
+Hugging Face, and sets up Parameter Efficient Fine Tuning (PEFT). PEFT is the bleeding
+edge way to fine tune Large Language Models, and is a Hugging Face implementation of
 QLoRA, which is the combination of three different efficiency strategies: quantization,
 low rank, and adapter. Quantization is the idea that a single-byte integer is of
 sufficient numerical precision for gradient computations in deep learning. Low rank
@@ -199,7 +199,7 @@ Let's look at the `forward` method:
 As training a neural network involves the alternation between backprop and feed forward,
 this specifies the forward part, and the notable thing is that the arguments of
 `forward` are: `input_ids`, `attention_mask`, and `label`. These are the outputs of a
-Huggingface tokenizer, and they allow us to tie together Huggingface and PyTorch Lightning.
+Hugging Face tokenizer, and they allow us to tie together Hugging Face and PyTorch Lightning.
 
 Next, let's take a look at the `_compute_metrics` method:
 
@@ -234,7 +234,7 @@ looks like Figure 7 below.
 
 This code is self-explanatory, but there are some choices to call out. The
 `pretrained_model` is set to `roberta-base`, and if we were to change it to any
-Huggingface model name that supports AutoTokenizer, everything should still work (tested)
+Hugging Face model name that supports AutoTokenizer, everything should still work (tested)
 . Model accuracy was found to be most sensitive to `max_length` and `batch_size`, so
 these are the main hyperparameters to play around with, and they both tradeoff
 between accuracy and computational load. On Azure ML, I used the Standard_NC24ads_A100_v4
@@ -258,7 +258,7 @@ and this is its structure:
 ![Lex GLUE Data Module](docs/lex-glue-data-module.png)
 
 There are quite a few nitty-gritty details in `LexGlueDataModule`, but the main idea is
-that the `setup` method fetches the data directly from Huggingface, and then some sort
+that the `setup` method fetches the data directly from Hugging Face, and then some sort
 of tokenization has to happen. The details of that tokenization is in the
 `_shared_transform` method, which is just the high level interface for the
 `_preprocess` callback method.
@@ -404,7 +404,7 @@ where `train.py` is and run:
 $ python train.py
 ```
 
-If there are no bugs, it will print to console some Huggingface message and a lot of
+If there are no bugs, it will print to console some Hugging Face message and a lot of
 PyTorch Lightning messages. After a few minutes, it should start printing a progress bar.
 Sit tight and let it do its thing. When the run finally finishes, an ascii table
 summarizing the evaluation metrics for the final model will be printed to console.

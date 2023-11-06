@@ -3,9 +3,9 @@
 ## Introduction
 Processes and information are at the heart of every business. The vulnerability and 
 opportunity of this moment is the question of whether your business can automate your 
-processes using AI--reaping the rewards and advantages of doing so. ChatGPT, a 
+processes using AI, and reap the rewards and advantages of doing so. ChatGPT, a 
 general purpose AI, has opened our eyes to what AI can do. What matters now is directing 
-the power of AI to *your* business problems, to supercharge *your* processes, to unlock 
+the power of AI to *your* business problems, supercharge *your* processes, and unlock 
 the value of *your* proprietary data. In this document, I will show you how.
 
 ## Table of Contents
@@ -27,12 +27,14 @@ processes is to fine tune an LLM on your data and on the action you want AI to p
 Let's talk specifically about the fine tuning that we are going to do in this document 
 and the technology behind it. Listed below are the five tools we will use extensively here:
 
-- PyTorch Lightning (gives us just enough control without excessive boilerplate)
-- HuggingFace (access to thousands of community-maintained models)
-- Polars (this data manipulation library is orders of magnitude faster than pandas and is 
+- **PyTorch Lightning** (gives us just enough control without excessive boilerplate)
+- **HuggingFace** (access to thousands of community-maintained models)
+- **Polars** (this data manipulation library is orders of magnitude faster than pandas 
+  and is 
   really trending now)
-- Mlflow (for tracking results during the process of fine tuning)
-- Azure ML (we could've also gone with AWS SageMaker, but the user experience of Azure ML 
+- **Mlflow** (for tracking results during the process of fine tuning)
+- **Azure ML** (we could've also gone with AWS SageMaker, but the user experience of 
+  Azure ML 
   felt better)
 
 At the end of the day, I want you to take away two things from this document:
@@ -57,7 +59,7 @@ A good process for finding suitable problems for machine learning and for qualit
 is to start by browsing sites with benchmarks. Benchmarks provide a frame of reference 
 for the level of difficulty of the problem for machine learning, which we use to measure 
 our progress during model development. One particular dataset with well established 
-benchmarks is the Unfair Terms of Service dataset (UNFAIR-ToS); here's an intriguing 
+benchmarks is the [Unfair Terms of Service dataset (UNFAIR-ToS)](https://huggingface.co/datasets/lex_glue/viewer/unfair_tos); here's an intriguing 
 problem statement for it: Use AI to find all unfair clauses in Terms of Service 
 contracts. The context is that the European consumer law on unfair contracts establishes 
 what unfair clauses are and the different types of unfair clauses. What makes UNFAIR-ToS 

@@ -108,7 +108,7 @@ Let's design how we're going to do it.
 
 #### Figure 2
 
-![Project Diagram](https://i.imgur.com/j2czCmT.png)
+![Project Diagram](unfair-tos-diagram.png)
 
 ## 4. Code Deep Dive
 
@@ -123,7 +123,7 @@ Let's design how we're going to do it.
 from .fine_tune_clsify_head import TransformerModule
 ```
 
-The above import in `architectures/__init__.py` enables code outside `architectures` to
+in `architectures/__init__.py` enables code outside `architectures` to
 import `TransformerModule` without having to remember the breadcrumbs leading to where this
 function sits, like this:
 
@@ -169,7 +169,7 @@ below.
 
 #### Figure 3
 
-![Architecture Organization](https://i.imgur.com/uDgPxXE.png)
+![Architecture Organization](architecture-organization.png)
 
 It's clear that the key methods inside this class to understand are: the constructor,
 the forward pass through the network, the metrics, and the steps. We'll discuss each of
@@ -177,7 +177,7 @@ these in turn. Let's start with the constructor. This snippet is what the code l
 
 #### Figure 4
 
-![Transformer Constructor](https://i.imgur.com/vKxn5bL.png)
+![Transformer Constructor](transformer-constructor.png)
 
 What's really crucial here is that the constructor loads a pretrained model from
 Hugging Face, and sets up Parameter Efficient Fine Tuning (PEFT). PEFT is the bleeding
@@ -194,7 +194,7 @@ Let's look at the `forward` method:
 
 #### Figure 5
 
-![Feed Forward](https://i.imgur.com/VkDhTXf.png)
+![Feed Forward](feed-forward.png)
 
 As training a neural network involves the alternation between backprop and feed forward,
 this specifies the forward part, and the notable thing is that the arguments of
@@ -205,7 +205,7 @@ Next, let's take a look at the `_compute_metrics` method:
 
 #### Figure 6
 
-![Metrics](https://i.imgur.com/TveG5qF.png)
+![Metrics](metrics.png)
 
 There are a few things worth noting here. First, observe how the logits are unpacked
 from the forward function evaluation and then converted to probabilities via softmax
@@ -216,7 +216,7 @@ Finally, let's talk about `training_step`, `validation_step`, and `test_step`.
 
 #### Figure 6
 
-![The Steps](https://i.imgur.com/M3iGqCS.png)
+![The Steps](the-steps.png)
 
 They look almost alike, with an important difference being `training_step` returning
 `outputs["loss"]` instead of `metrics`. This makes sense because backprop is iteratively
@@ -228,7 +228,7 @@ which looks like Figure 7 below.
 
 #### Figure 7
 
-![Config](https://i.imgur.com/NrY46og.png)
+![Config](config.png)
 
 This code is self-explanatory, but there are some choices to call out. The
 `pretrained_model` is set to `roberta-base`, and if we were to change it to any
@@ -253,7 +253,7 @@ and this is its structure:
 
 #### Figure 8
 
-![Lex GLUE Data Module](https://i.imgur.com/CYNWncO.png)
+![Lex GLUE Data Module](lex-glue-data-module.png)
 
 There are quite a few nitty-gritty details in `LexGlueDataModule`, but the main idea is
 that the `setup` method fetches the data directly from Hugging Face, and then some sort
@@ -276,7 +276,7 @@ heart of it:
 
 #### Figure 9
 
-![Train](https://i.imgur.com/XrmMU3o.png)
+![Train](train.png)
 
 We're instantiating a PyTorch Lightning Trainer class, turn on early stopping, and set
 precision based on the machine we're on via `precision="bf16-mixed" if torch.cuda.
@@ -328,7 +328,7 @@ Here's a dashboard that puts it all together:
 
 #### Figure 10
 
-![Dashboard](https://i.imgur.com/cg7VpuC.png)
+![Dashboard](dashboard.png)
 
 Taking advantage of the tight integration between Azure and MLflow, the metrics from our
 training run have been made available for easy consumption and visualization in the

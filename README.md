@@ -169,7 +169,7 @@ below.
 
 #### Figure 3
 
-<img src="docs/transformer-structure.png" width="250" height="150" alt="Transformer Class 
+<img src="docs/transformer-structure.png" width="500" height="300" alt="Transformer Class 
 Structure">
 
 

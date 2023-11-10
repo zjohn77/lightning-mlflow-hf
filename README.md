@@ -169,7 +169,9 @@ below.
 
 #### Figure 3
 
-![Architecture Organization](https://i.imgur.com/uDgPxXE.png)
+<img src="docs/transformer-structure.png" width="250" height="150" alt="Transformer Class 
+Structure">
+
 
 It's clear that the key methods inside this class to understand are: the constructor,
 the forward pass through the network, the metrics, and the steps. We'll discuss each of
@@ -185,7 +187,7 @@ edge way to fine tune Large Language Models, and is a Hugging Face implementatio
 QLoRA, which is the combination of three different efficiency strategies: quantization,
 low rank, and adapter. Quantization is the idea that a single-byte integer is of
 sufficient numerical precision for gradient computations in deep learning. Low rank
-comes from the linear algebra concept that the rank of a matrix is roughly the number of
+comes from the linear algebra concept that the rank of a matrix is the number of
 non-redundant dimensions of the vector space. Adapter tuning can be understood as a sort
 of generalization of tuning the head of the network, by refitting a portion of the
 weights in many layers.

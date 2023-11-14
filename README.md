@@ -25,7 +25,7 @@ show you how.
 
 You don't want an AI that can just chat; what you really want are automations that perform
 the work that keeps your business running--powering through business processes at
-unparalleled accuracy and scale. The proven way to customize AI to your business
+great accuracy and scale. The proven way to customize AI to your business
 processes is to fine tune an LLM on your data and on the action you want AI to perform.
 
 Let's talk specifically about the fine tuning that we are going to do in this document

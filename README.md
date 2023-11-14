@@ -6,7 +6,8 @@ Processes and information are at the heart of every business. The vulnerability 
 opportunity of this moment is the question of whether your business can automate your
 processes using AI, and reap the rewards of doing so. ChatGPT, a general purpose AI, has
 opened our eyes to what AI can do. What matters now is directing the power of AI to *your*
-business problems and unlock the value of *your* proprietary data. In this document, I will
+business problems and unlocking the value of *your* proprietary data. In this document, I 
+will
 show you how.
 
 ## Table of Contents

@@ -23,7 +23,7 @@ show you how.
 
 ## 1. Overview of LLM Fine Tuning
 
-You don't want an AI that can just chat; what you really want are automations that perform
+You don't want an AI that just can chat; what you really want are automations that perform
 the work that keeps your business running--powering through business processes at
 great accuracy and scale. The proven way to customize AI to your business
 processes is to fine tune an LLM on your data and on the action you want AI to perform.

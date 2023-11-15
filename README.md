@@ -281,11 +281,11 @@ heart of it:
 
 ![Train](https://i.imgur.com/XrmMU3o.png)
 
-We're instantiating a PyTorch Lightning Trainer class, turn on early stopping, and set
-precision based on the machine we're on via `precision="bf16-mixed" if torch.cuda.
-is_available() else "32-true"`. We configure MLflow to track everything. To put
-everything together, we import the functionality from the other three modules that we
-had described before:
+We're instantiating a PyTorch Lightning Trainer class, turning on early stopping, and 
+setting the precision based on the machine we're on via `precision="bf16-mixed" if torch.
+cuda.is_available() else "32-true"`. We configure MLflow to track everything. To put
+everything together, we import the functionality from the other three modules we had 
+described earlier:
 
 ```python
 from architectures.fine_tune_clsify_head import TransformerModule
@@ -318,12 +318,11 @@ trainer.test(
     model=model, datamodule=datamodule, ckpt_path=best_model_path, )
 ```
 
-Twice we called `test` so that we are testing both the last model at stop time and the
+We had called `test` twice so that we are testing both the last model at stop time and the
 best model according to our metric. This is a perfect example of the rich functionality
 that comes with PyTorch Lightning.
 
-That's it! I hope that this code walkthrough has been enlightening. Now the next step is
-to explore the results of fine tuning an LLM to predict unfair Terms of Service.
+And that wraps up the code walkthrough. Now let's dive into the model results.
 
 ## 5. Model Results
 
